@@ -1,0 +1,261 @@
+body {
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+// Вращение головы
+@keyframes volhuman-head-rotating {
+    0%, 100% {
+        transform: 
+            rotateX(-45deg)
+            rotateY(-15deg)
+            translateX(-.3em)
+            translateY(-8em);
+    }
+    50% {
+        transform:
+            rotateX(-45deg)
+            rotateY(15deg)
+            translateX(-.3em)
+            translateY(-8em);
+    }
+}
+// Миксин размера плоскостей мешей
+@mixin rect-size($parentMesh, $rectSize) {
+    @if ($parentMesh == "head") {
+        @if ($rectSize == "equal") {
+            height: 8em;
+            width: 8em;
+        }
+    }
+    @else if ($parentMesh == "body") {
+        @if ($rectSize == "wide") {
+            height: 12em;
+            width: 8em;
+        } @else if ($rectSize == "narrow") {
+            height: 12em;
+            width: 4em;
+        } @else if ($rectSize == "small") {
+            height: 4em;
+            width: 8em;
+        }
+    }
+    @else if ($parentMesh == "limb") {
+        @if ($rectSize == "wide") {
+            height: 12em;
+            width: 4em;
+        } @else if ($rectSize == "narrow") {
+            height: 12em;
+            width: 4em;
+        } @else if ($rectSize == "small") {
+            height: 4em;
+            width: 4em;
+        }
+    }
+}
+
+// Сцена с 3D моделями
+.volscene {
+    position: relative;
+    height: 70em;
+    width: 70em;
+    font-size: 12px;
+    background-image: radial-gradient(center, #ffffff3b 0% 20%, transparent 70% 100%);
+}
+
+// 3D Объекты
+.volmodel {
+    position: absolute;    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mesh {
+    transform-style: preserve-3d;
+    &__rect {
+        backdrop-filter: blur(.1em);
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        image-rendering: pixelated;
+        border: 1px solid #ffffff;
+        background-color: #05a500;
+    }
+}
+
+// 3D Человек
+.volhuman {
+    right: 30em;
+    width: 8em;
+    height: inherit;
+
+    // Голова
+    &__head {
+        z-index: 6;
+        transform:
+            rotateX(-45deg)
+            translateY(-8em);
+        animation: volhuman-head-rotating 2s linear infinite;
+
+        &-rect {
+            &--front {
+                @include rect-size("head", "equal");
+                transform: translateZ(4em);
+            }
+            &--back {
+                @include rect-size("head", "equal");
+                transform: translateZ(-4em);
+            }
+            &--top {
+                @include rect-size("head", "equal");
+                transform: translateY(-4em) rotateX(-90deg);
+            }
+            &--bottom {
+                @include rect-size("head", "equal");
+                transform: translateY(4em) rotateX(90deg);
+            }
+            &--right {
+                @include rect-size("head", "equal");
+                transform: translateX(4em) rotateY(-90deg);
+            }
+            &--left {
+                @include rect-size("head", "equal");
+                transform: translateX(-4em) rotateY(90deg);
+            }
+        }
+    }
+
+    // Тело
+    &__body {
+        z-index: 5;
+        transform: 
+            rotateX(-45deg);
+            // rotateY(-45deg);
+
+        &-rect {
+            &--front {
+                @include rect-size("body", "wide");
+                transform: translateZ(2em);
+            }
+            &--back {
+                @include rect-size("body", "wide");
+                transform: translateZ(-2em);
+            }
+            &--top {
+                @include rect-size("body", "small");
+                transform: translateY(-2em) rotateX(-90deg);
+            }
+            &--bottom {
+                @include rect-size("body", "small");
+                transform: translateY(10em) rotateX(90deg);
+            }
+            &--right {
+                @include rect-size("body", "narrow");
+                transform: translateX(6em) rotateY(-90deg);
+            }
+            &--left {
+                @include rect-size("body", "narrow");
+                transform: translateX(-2em) rotateY(90deg);
+            }
+        }
+    }
+
+    // Руки
+    &__hand {
+        &--left {
+            z-index: 4;
+            transform: 
+                rotateX(-45deg)
+                // rotateY(-45deg)
+                translateX(-4em);// Положение относительно тела
+        }
+        &--right {
+            z-index: 5;
+            transform: 
+                rotateX(-45deg)
+                // rotateY(-45deg)
+                translateX(8em); // Положение относительно тела
+        }
+
+        &-rect {
+            &--front {
+                @include rect-size("limb", "wide");
+                transform: translateZ(2em);
+            }
+            &--back {
+                @include rect-size("limb", "wide");
+                transform: translateZ(-2em);
+            }
+            &--top {
+                @include rect-size("limb", "small");
+                transform: translateY(-2em) rotateX(-90deg);
+            }
+            &--bottom {
+                @include rect-size("limb", "small");
+                transform: translateY(10em) rotateX(90deg);
+            }
+            &--right {
+                @include rect-size("limb", "narrow");
+                transform: translateX(2em) rotateY(-90deg);
+            }
+            &--left {
+                @include rect-size("limb", "narrow");
+                transform: translateX(-2em) rotateY(90deg);
+            }
+        }
+    }
+
+    // Ноги
+    &__leg {
+        &--left {
+            z-index: 2;
+            transform: 
+                rotateX(-45deg)
+                // rotateY(-45deg)
+                // Положение относительно тела
+                translateX(0em)
+                translateY(12em);
+        }
+        &--right {
+            z-index: 3;
+            transform: 
+                rotateX(-45deg)
+                // rotateY(-45deg)
+                // Положение относительно тела
+                translateX(4em)
+                translateY(12em);
+        }
+
+        &-rect {
+            &--front {
+                @include rect-size("limb", "wide");
+                transform: translateZ(2em);
+            }
+            &--back {
+                @include rect-size("limb", "wide");
+                transform: translateZ(-2em);
+            }
+            &--top {
+                @include rect-size("limb", "small");
+                transform: translateY(-2em) rotateX(-90deg);
+            }
+            &--bottom {
+                @include rect-size("limb", "small");
+                transform: translateY(10em) rotateX(90deg);
+            }
+            &--right {
+                @include rect-size("limb", "narrow");
+                transform: translateX(2em) rotateY(-90deg);
+            }
+            &--left {
+                @include rect-size("limb", "narrow");
+                transform: translateX(-2em) rotateY(90deg);
+            }
+        }
+    }
+}
