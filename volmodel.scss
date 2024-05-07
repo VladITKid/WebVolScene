@@ -1,5 +1,7 @@
 body {
     background-color: #5d5d5d;
+    display: flex;
+    justify-content: center;
 }
 $vwMultiplier: .8;
 // Вращение головы
@@ -195,6 +197,7 @@ $vwMultiplier: .8;
             &--front {
                 @include rect-size("head", "equal");
                 transform: translateZ(4vw*$vwMultiplier);
+                background-image: url('face.gif');
             }
             &--back {
                 @include rect-size("head", "equal");
