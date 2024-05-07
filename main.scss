@@ -4,18 +4,18 @@ body {
     justify-content: center;
     align-items: center;
 }
-
+$multiplier: .5;
 // Вращение головы
 @keyframes volhuman-walking-head {
     0%, 100% {
         transform: 
             rotateY(-15deg)
-            translateY(-8em);
+            translateY(-8vw*$multiplier);
     }
     50% {
         transform:
             rotateY(15deg)
-            translateY(-8em);
+            translateY(-8vw*$multiplier);
     }
 }
 // Движение рук
@@ -23,24 +23,24 @@ body {
     0%, 100% {
         transform: 
             rotateX(-10deg)
-            translateX(-4em);
+            translateX(-4vw*$multiplier);
     }
     50% {
         transform: 
             rotateX(10deg)
-            translateX(-4em);
+            translateX(-4vw*$multiplier);
     }
 }
 @keyframes volhuman-walking-hand-right {
     0%, 100% {
         transform: 
             rotateX(10deg)
-            translateX(8em);
+            translateX(8vw*$multiplier);
     }
     50% {
         transform: 
             rotateX(-10deg)
-            translateX(8em);
+            translateX(8vw*$multiplier);
     }
 }
 // Движение ног
@@ -48,17 +48,17 @@ body {
     0%, 100% {
         transform:
             rotateX(-10deg)
-            translateX(4em)
-            translateY(12.2em)
-            translateZ(2em)
+            translateX(4vw*$multiplier)
+            translateY(12.2vw*$multiplier)
+            translateZ(2vw*$multiplier)
             ;
     }
     50% {
         transform:
             rotateX(10deg)
-            translateX(4em)
-            translateY(12.2em)
-            translateZ(-2em)
+            translateX(4vw*$multiplier)
+            translateY(12.2vw*$multiplier)
+            translateZ(-2vw*$multiplier)
             ;
     }
 }
@@ -66,36 +66,44 @@ body {
     0%, 100% {
         transform: 
             rotateX(10deg)
-            translateX(0em)
-            translateY(12.2em)
-            translateZ(-2em)
+            translateX(0vw*$multiplier)
+            translateY(12.2vw*$multiplier)
+            translateZ(-2vw*$multiplier)
             ;
     }
     50% {
         transform: 
             rotateX(-10deg)
-            translateX(0em)
-            translateY(12.2em)
-            translateZ(2em)
+            translateX(0vw*$multiplier)
+            translateY(12.2vw*$multiplier)
+            translateZ(2vw*$multiplier)
             ;
     }
 }
-// Миксин анимации походки для каждого меша
-@mixin volhuman-walking($meshName) {
-    @if($meshName == 'head') {
-        animation: volhuman-walking-head 2s linear infinite;
-    }
-    @else if($meshName == 'hand--left') {
-        animation: volhuman-walking-hand-left 2s linear infinite;
-    }
-    @else if($meshName == 'hand--right') {
-        animation: volhuman-walking-hand-right 2s linear infinite;
-    }
-    @else if($meshName == 'leg--left') {
-        animation: volhuman-walking-leg-left 2s linear infinite;
-    }
-    @else if($meshName == 'leg--right') {
-        animation: volhuman-walking-leg-right 2s linear infinite;
+// Миксин выбора анимации для каждого меша
+@mixin volhuman-animation($animation, $meshName) {
+    @if($animation == 'walking') {
+        &--walking {
+            animation-duration: 2s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+
+            @if($meshName == 'head') {
+                animation-name: volhuman-walking-head;
+            }
+            @else if($meshName == 'hand--left') {
+                animation-name: volhuman-walking-hand-left;
+            }
+            @else if($meshName == 'hand--right') {
+                animation-name: volhuman-walking-hand-right;
+            }
+            @else if($meshName == 'leg--left') {
+                animation-name: volhuman-walking-leg-left;
+            }
+            @else if($meshName == 'leg--right') {
+                animation-name: volhuman-walking-leg-right;
+            }
+        }
     }
 }
 
@@ -103,32 +111,32 @@ body {
 @mixin rect-size($parentMesh, $rectSize) {
     @if ($parentMesh == 'head') {
         @if ($rectSize == 'equal') {
-            height: 8em;
-            width: 8em;
+            height: 8vw*$multiplier;
+            width: 8vw*$multiplier;
         }
     }
     @else if ($parentMesh == 'body') {
         @if ($rectSize == 'wide') {
-            height: 12em;
-            width: 8em;
+            height: 12vw*$multiplier;
+            width: 8vw*$multiplier;
         } @else if ($rectSize == 'narrow') {
-            height: 12em;
-            width: 4em;
+            height: 12vw*$multiplier;
+            width: 4vw*$multiplier;
         } @else if ($rectSize == 'small') {
-            height: 4em;
-            width: 8em;
+            height: 4vw*$multiplier;
+            width: 8vw*$multiplier;
         }
     }
     @else if ($parentMesh == 'limb') {
         @if ($rectSize == 'wide') {
-            height: 12em;
-            width: 4em;
+            height: 12vw*$multiplier;
+            width: 4vw*$multiplier;
         } @else if ($rectSize == 'narrow') {
-            height: 12em;
-            width: 4em;
+            height: 12vw*$multiplier;
+            width: 4vw*$multiplier;
         } @else if ($rectSize == 'small') {
-            height: 4em;
-            width: 4em;
+            height: 4vw*$multiplier;
+            width: 4vw*$multiplier;
         }
     }
 }
@@ -136,13 +144,13 @@ body {
 // Сцена с 3D моделями
 .volscene {
     position: relative;
-    height: 70em;
-    width: 70em;
+    height: 40vw*$multiplier;
+    width: 40vw*$multiplier;
     font-size: 12px;
     background-image: radial-gradient(center, #ffffff3b 0% 20%, transparent 70% 100%);
 }
 
-// 3D Объекты
+// 3D Объект
 .volmodel {
     position: absolute;    
     display: flex;
@@ -156,6 +164,7 @@ body {
         rotateY(-45deg);
 }
 
+// Меш 3D объекта
 .mesh {
     transform-style: preserve-3d;
     &__rect {
@@ -167,46 +176,47 @@ body {
         background-size: contain;
         image-rendering: pixelated;
         border: 1px solid #ffffff;
-        background-color: #05a50089;
+        background-color: #05a500b5;
     }
 }
 
 // 3D Человек
 .volhuman {
-    right: 30em;
-    width: 8em;
+    bottom: 5vw*$multiplier;
+    right: 16vw*$multiplier;
+    width: 8vw*$multiplier;
     height: inherit;
 
     // Голова
     &__head {
         z-index: 6;
-        transform: translateY(-8em); // Положение относительно тела
-        @include volhuman-walking('head');
+        transform: translateY(-8vw*$multiplier); // Положение относительно тела
+        @include volhuman-animation('walking', 'head');
 
         &-rect {
             &--front {
                 @include rect-size("head", "equal");
-                transform: translateZ(4em);
+                transform: translateZ(4vw*$multiplier);
             }
             &--back {
                 @include rect-size("head", "equal");
-                transform: translateZ(-4em);
+                transform: translateZ(-4vw*$multiplier);
             }
             &--top {
                 @include rect-size("head", "equal");
-                transform: translateY(-4em) rotateX(-90deg);
+                transform: translateY(-4vw*$multiplier) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("head", "equal");
-                transform: translateY(4em) rotateX(90deg);
+                transform: translateY(4vw*$multiplier) rotateX(90deg);
             }
             &--right {
                 @include rect-size("head", "equal");
-                transform: translateX(4em) rotateY(-90deg);
+                transform: translateX(4vw*$multiplier) rotateY(-90deg);
             }
             &--left {
                 @include rect-size("head", "equal");
-                transform: translateX(-4em) rotateY(90deg);
+                transform: translateX(-4vw*$multiplier) rotateY(90deg);
             }
         }
     }
@@ -218,27 +228,27 @@ body {
         &-rect {
             &--front {
                 @include rect-size("body", "wide");
-                transform: translateZ(2em);
+                transform: translateZ(2vw*$multiplier);
             }
             &--back {
                 @include rect-size("body", "wide");
-                transform: translateZ(-2em);
+                transform: translateZ(-2vw*$multiplier);
             }
             &--top {
                 @include rect-size("body", "small");
-                transform: translateY(-2em) rotateX(-90deg);
+                transform: translateY(-2vw*$multiplier) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("body", "small");
-                transform: translateY(10em) rotateX(90deg);
+                transform: translateY(10vw*$multiplier) rotateX(90deg);
             }
             &--right {
                 @include rect-size("body", "narrow");
-                transform: translateX(6em) rotateY(-90deg);
+                transform: translateX(6vw*$multiplier) rotateY(-90deg);
             }
             &--left {
                 @include rect-size("body", "narrow");
-                transform: translateX(-2em) rotateY(90deg);
+                transform: translateX(-2vw*$multiplier) rotateY(90deg);
             }
         }
     }
@@ -247,39 +257,39 @@ body {
     &__hand {
         &--left {
             z-index: 4;
-            transform: translateX(-4em);// Положение относительно тела
-            @include volhuman-walking('hand--left');
+            transform: translateX(-4vw*$multiplier);// Положение относительно тела
+            @include volhuman-animation('walking', 'hand--left');
         }
         &--right {
             z-index: 5;
-            transform: translateX(8em); // Положение относительно тела
-            @include volhuman-walking('hand--right');
+            transform: translateX(8vw*$multiplier); // Положение относительно тела
+            @include volhuman-animation('walking', 'hand--right');
         }
 
         &-rect {
             &--front {
                 @include rect-size("limb", "wide");
-                transform: translateZ(2em);
+                transform: translateZ(2vw*$multiplier);
             }
             &--back {
                 @include rect-size("limb", "wide");
-                transform: translateZ(-2em);
+                transform: translateZ(-2vw*$multiplier);
             }
             &--top {
                 @include rect-size("limb", "small");
-                transform: translateY(-2em) rotateX(-90deg);
+                transform: translateY(-2vw*$multiplier) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("limb", "small");
-                transform: translateY(10em) rotateX(90deg);
+                transform: translateY(10vw*$multiplier) rotateX(90deg);
             }
             &--right {
                 @include rect-size("limb", "narrow");
-                transform: translateX(2em) rotateY(-90deg);
+                transform: translateX(2vw*$multiplier) rotateY(-90deg);
             }
             &--left {
                 @include rect-size("limb", "narrow");
-                transform: translateX(-2em) rotateY(90deg);
+                transform: translateX(-2vw*$multiplier) rotateY(90deg);
             }
         }
     }
@@ -290,43 +300,43 @@ body {
             z-index: 2;
             // Положение относительно тела
             transform: 
-                translateX(0em)
-                translateY(12em);
-            @include volhuman-walking('leg--left');
+                translateX(0vw*$multiplier)
+                translateY(12vw*$multiplier);
+            @include volhuman-animation('walking', 'leg--left');
             }
         &--right {
             z-index: 3;
             // Положение относительно тела
             transform: 
-                translateX(4em)
-                translateY(12em);
-            @include volhuman-walking('leg--right');
+                translateX(4vw*$multiplier)
+                translateY(12vw*$multiplier);
+            @include volhuman-animation('walking', 'leg--right');
         }
 
         &-rect {
             &--front {
                 @include rect-size("limb", "wide");
-                transform: translateZ(2em);
+                transform: translateZ(2vw*$multiplier);
             }
             &--back {
                 @include rect-size("limb", "wide");
-                transform: translateZ(-2em);
+                transform: translateZ(-2vw*$multiplier);
             }
             &--top {
                 @include rect-size("limb", "small");
-                transform: translateY(-2em) rotateX(-90deg);
+                transform: translateY(-2vw*$multiplier) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("limb", "small");
-                transform: translateY(10em) rotateX(90deg);
+                transform: translateY(10vw*$multiplier) rotateX(90deg);
             }
             &--right {
                 @include rect-size("limb", "narrow");
-                transform: translateX(2em) rotateY(-90deg);
+                transform: translateX(2vw*$multiplier) rotateY(-90deg);
             }
             &--left {
                 @include rect-size("limb", "narrow");
-                transform: translateX(-2em) rotateY(90deg);
+                transform: translateX(-2vw*$multiplier) rotateY(90deg);
             }
         }
     }
