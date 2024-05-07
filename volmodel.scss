@@ -1,21 +1,18 @@
 body {
-    background-color: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #5d5d5d;
 }
-$multiplier: .5;
+$vwMultiplier: .8;
 // Вращение головы
 @keyframes volhuman-walking-head {
     0%, 100% {
         transform: 
             rotateY(-15deg)
-            translateY(-8vw*$multiplier);
+            translateY(-8vw*$vwMultiplier);
     }
     50% {
         transform:
             rotateY(15deg)
-            translateY(-8vw*$multiplier);
+            translateY(-8vw*$vwMultiplier);
     }
 }
 // Движение рук
@@ -23,24 +20,24 @@ $multiplier: .5;
     0%, 100% {
         transform: 
             rotateX(-10deg)
-            translateX(-4vw*$multiplier);
+            translateX(-4vw*$vwMultiplier);
     }
     50% {
         transform: 
             rotateX(10deg)
-            translateX(-4vw*$multiplier);
+            translateX(-4vw*$vwMultiplier);
     }
 }
 @keyframes volhuman-walking-hand-right {
     0%, 100% {
         transform: 
             rotateX(10deg)
-            translateX(8vw*$multiplier);
+            translateX(8vw*$vwMultiplier);
     }
     50% {
         transform: 
             rotateX(-10deg)
-            translateX(8vw*$multiplier);
+            translateX(8vw*$vwMultiplier);
     }
 }
 // Движение ног
@@ -48,17 +45,17 @@ $multiplier: .5;
     0%, 100% {
         transform:
             rotateX(-10deg)
-            translateX(4vw*$multiplier)
-            translateY(12.2vw*$multiplier)
-            translateZ(2vw*$multiplier)
+            translateX(4vw*$vwMultiplier)
+            translateY(12.2vw*$vwMultiplier)
+            translateZ(2vw*$vwMultiplier)
             ;
     }
     50% {
         transform:
             rotateX(10deg)
-            translateX(4vw*$multiplier)
-            translateY(12.2vw*$multiplier)
-            translateZ(-2vw*$multiplier)
+            translateX(4vw*$vwMultiplier)
+            translateY(12.2vw*$vwMultiplier)
+            translateZ(-2vw*$vwMultiplier)
             ;
     }
 }
@@ -66,17 +63,17 @@ $multiplier: .5;
     0%, 100% {
         transform: 
             rotateX(10deg)
-            translateX(0vw*$multiplier)
-            translateY(12.2vw*$multiplier)
-            translateZ(-2vw*$multiplier)
+            translateX(0vw*$vwMultiplier)
+            translateY(12.2vw*$vwMultiplier)
+            translateZ(-2vw*$vwMultiplier)
             ;
     }
     50% {
         transform: 
             rotateX(-10deg)
-            translateX(0vw*$multiplier)
-            translateY(12.2vw*$multiplier)
-            translateZ(2vw*$multiplier)
+            translateX(0vw*$vwMultiplier)
+            translateY(12.2vw*$vwMultiplier)
+            translateZ(2vw*$vwMultiplier)
             ;
     }
 }
@@ -111,41 +108,42 @@ $multiplier: .5;
 @mixin rect-size($parentMesh, $rectSize) {
     @if ($parentMesh == 'head') {
         @if ($rectSize == 'equal') {
-            height: 8vw*$multiplier;
-            width: 8vw*$multiplier;
+            height: 8vw*$vwMultiplier;
+            width: 8vw*$vwMultiplier;
         }
     }
     @else if ($parentMesh == 'body') {
         @if ($rectSize == 'wide') {
-            height: 12vw*$multiplier;
-            width: 8vw*$multiplier;
+            height: 12vw*$vwMultiplier;
+            width: 8vw*$vwMultiplier;
         } @else if ($rectSize == 'narrow') {
-            height: 12vw*$multiplier;
-            width: 4vw*$multiplier;
+            height: 12vw*$vwMultiplier;
+            width: 4vw*$vwMultiplier;
         } @else if ($rectSize == 'small') {
-            height: 4vw*$multiplier;
-            width: 8vw*$multiplier;
+            height: 4vw*$vwMultiplier;
+            width: 8vw*$vwMultiplier;
         }
     }
     @else if ($parentMesh == 'limb') {
         @if ($rectSize == 'wide') {
-            height: 12vw*$multiplier;
-            width: 4vw*$multiplier;
+            height: 12vw*$vwMultiplier;
+            width: 4vw*$vwMultiplier;
         } @else if ($rectSize == 'narrow') {
-            height: 12vw*$multiplier;
-            width: 4vw*$multiplier;
+            height: 12vw*$vwMultiplier;
+            width: 4vw*$vwMultiplier;
         } @else if ($rectSize == 'small') {
-            height: 4vw*$multiplier;
-            width: 4vw*$multiplier;
+            height: 4vw*$vwMultiplier;
+            width: 4vw*$vwMultiplier;
         }
     }
 }
 
 // Сцена с 3D моделями
 .volscene {
+    grid-column: 2;
     position: relative;
-    height: 40vw*$multiplier;
-    width: 40vw*$multiplier;
+    height: 40vw*$vwMultiplier;
+    width: 40vw*$vwMultiplier;
     font-size: 12px;
     background-image: radial-gradient(center, #ffffff3b 0% 20%, transparent 70% 100%);
 }
@@ -182,41 +180,41 @@ $multiplier: .5;
 
 // 3D Человек
 .volhuman {
-    bottom: 5vw*$multiplier;
-    right: 16vw*$multiplier;
-    width: 8vw*$multiplier;
+    bottom: 5vw*$vwMultiplier;
+    right: 16vw*$vwMultiplier;
+    width: 8vw*$vwMultiplier;
     height: inherit;
 
     // Голова
     &__head {
         z-index: 6;
-        transform: translateY(-8vw*$multiplier); // Положение относительно тела
+        transform: translateY(-8vw*$vwMultiplier); // Положение относительно тела
         @include volhuman-animation('walking', 'head');
 
         &-rect {
             &--front {
                 @include rect-size("head", "equal");
-                transform: translateZ(4vw*$multiplier);
+                transform: translateZ(4vw*$vwMultiplier);
             }
             &--back {
                 @include rect-size("head", "equal");
-                transform: translateZ(-4vw*$multiplier);
+                transform: translateZ(-4vw*$vwMultiplier);
             }
             &--top {
                 @include rect-size("head", "equal");
-                transform: translateY(-4vw*$multiplier) rotateX(-90deg);
+                transform: translateY(-4vw*$vwMultiplier) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("head", "equal");
-                transform: translateY(4vw*$multiplier) rotateX(90deg);
+                transform: translateY(4vw*$vwMultiplier) rotateX(90deg);
             }
             &--right {
                 @include rect-size("head", "equal");
-                transform: translateX(4vw*$multiplier) rotateY(-90deg);
+                transform: translateX(4vw*$vwMultiplier) rotateY(-90deg);
             }
             &--left {
                 @include rect-size("head", "equal");
-                transform: translateX(-4vw*$multiplier) rotateY(90deg);
+                transform: translateX(-4vw*$vwMultiplier) rotateY(90deg);
             }
         }
     }
@@ -228,27 +226,27 @@ $multiplier: .5;
         &-rect {
             &--front {
                 @include rect-size("body", "wide");
-                transform: translateZ(2vw*$multiplier);
+                transform: translateZ(2vw*$vwMultiplier);
             }
             &--back {
                 @include rect-size("body", "wide");
-                transform: translateZ(-2vw*$multiplier);
+                transform: translateZ(-2vw*$vwMultiplier);
             }
             &--top {
                 @include rect-size("body", "small");
-                transform: translateY(-2vw*$multiplier) rotateX(-90deg);
+                transform: translateY(-2vw*$vwMultiplier) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("body", "small");
-                transform: translateY(10vw*$multiplier) rotateX(90deg);
+                transform: translateY(10vw*$vwMultiplier) rotateX(90deg);
             }
             &--right {
                 @include rect-size("body", "narrow");
-                transform: translateX(6vw*$multiplier) rotateY(-90deg);
+                transform: translateX(6vw*$vwMultiplier) rotateY(-90deg);
             }
             &--left {
                 @include rect-size("body", "narrow");
-                transform: translateX(-2vw*$multiplier) rotateY(90deg);
+                transform: translateX(-2vw*$vwMultiplier) rotateY(90deg);
             }
         }
     }
@@ -257,39 +255,39 @@ $multiplier: .5;
     &__hand {
         &--left {
             z-index: 4;
-            transform: translateX(-4vw*$multiplier);// Положение относительно тела
+            transform: translateX(-4vw*$vwMultiplier);// Положение относительно тела
             @include volhuman-animation('walking', 'hand--left');
         }
         &--right {
             z-index: 5;
-            transform: translateX(8vw*$multiplier); // Положение относительно тела
+            transform: translateX(8vw*$vwMultiplier); // Положение относительно тела
             @include volhuman-animation('walking', 'hand--right');
         }
 
         &-rect {
             &--front {
                 @include rect-size("limb", "wide");
-                transform: translateZ(2vw*$multiplier);
+                transform: translateZ(2vw*$vwMultiplier);
             }
             &--back {
                 @include rect-size("limb", "wide");
-                transform: translateZ(-2vw*$multiplier);
+                transform: translateZ(-2vw*$vwMultiplier);
             }
             &--top {
                 @include rect-size("limb", "small");
-                transform: translateY(-2vw*$multiplier) rotateX(-90deg);
+                transform: translateY(-2vw*$vwMultiplier) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("limb", "small");
-                transform: translateY(10vw*$multiplier) rotateX(90deg);
+                transform: translateY(10vw*$vwMultiplier) rotateX(90deg);
             }
             &--right {
                 @include rect-size("limb", "narrow");
-                transform: translateX(2vw*$multiplier) rotateY(-90deg);
+                transform: translateX(2vw*$vwMultiplier) rotateY(-90deg);
             }
             &--left {
                 @include rect-size("limb", "narrow");
-                transform: translateX(-2vw*$multiplier) rotateY(90deg);
+                transform: translateX(-2vw*$vwMultiplier) rotateY(90deg);
             }
         }
     }
@@ -300,43 +298,43 @@ $multiplier: .5;
             z-index: 2;
             // Положение относительно тела
             transform: 
-                translateX(0vw*$multiplier)
-                translateY(12vw*$multiplier);
+                translateX(0vw*$vwMultiplier)
+                translateY(12vw*$vwMultiplier);
             @include volhuman-animation('walking', 'leg--left');
             }
         &--right {
             z-index: 3;
             // Положение относительно тела
             transform: 
-                translateX(4vw*$multiplier)
-                translateY(12vw*$multiplier);
+                translateX(4vw*$vwMultiplier)
+                translateY(12vw*$vwMultiplier);
             @include volhuman-animation('walking', 'leg--right');
         }
 
         &-rect {
             &--front {
                 @include rect-size("limb", "wide");
-                transform: translateZ(2vw*$multiplier);
+                transform: translateZ(2vw*$vwMultiplier);
             }
             &--back {
                 @include rect-size("limb", "wide");
-                transform: translateZ(-2vw*$multiplier);
+                transform: translateZ(-2vw*$vwMultiplier);
             }
             &--top {
                 @include rect-size("limb", "small");
-                transform: translateY(-2vw*$multiplier) rotateX(-90deg);
+                transform: translateY(-2vw*$vwMultiplier) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("limb", "small");
-                transform: translateY(10vw*$multiplier) rotateX(90deg);
+                transform: translateY(10vw*$vwMultiplier) rotateX(90deg);
             }
             &--right {
                 @include rect-size("limb", "narrow");
-                transform: translateX(2vw*$multiplier) rotateY(-90deg);
+                transform: translateX(2vw*$vwMultiplier) rotateY(-90deg);
             }
             &--left {
                 @include rect-size("limb", "narrow");
-                transform: translateX(-2vw*$multiplier) rotateY(90deg);
+                transform: translateX(-2vw*$vwMultiplier) rotateY(90deg);
             }
         }
     }

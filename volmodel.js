@@ -1,5 +1,5 @@
-// Получаем элемент модели
-const model = document.querySelector('.volhuman');
+// Получаем все элементы модели
+const volmodels = document.querySelectorAll('.volmodel');
 
 // Переменные для хранения начальной позиции и угла
 let startX = 0;
@@ -23,8 +23,12 @@ function handleDragMove(event) {
     const deltaX = currentX - startX;
     const deltaY = currentY - startY;
     const rotateY = startRotateY + deltaX * 0.5; // Изменение угла вращения
-    model.style.transform = `rotateX(-45deg) rotateY(${rotateY}deg)`; // Включение начального угла поворота
-    model.style.cursor = 'grabbing'; // Возвращение курсора к изначальному состоянию
+
+    // Проходимся по всем элементам модели и применяем изменения
+    volmodels.forEach(volmodel => {
+        volmodel.style.transform = `rotateX(-45deg) rotateY(${rotateY}deg)`;
+        volmodel.style.cursor = 'grabbing';
+    });
 }
 
 // Функция для окончания перетаскивания
@@ -33,9 +37,15 @@ function handleDragEnd() {
     document.removeEventListener('mouseup', handleDragEnd);
     document.removeEventListener('touchmove', handleDragMove);
     document.removeEventListener('touchend', handleDragEnd);
-    model.style.cursor = 'grab'; // Возвращение курсора к изначальному состоянию
+
+    // Возвращаем курсор к изначальному состоянию для всех элементов модели
+    volmodels.forEach(volmodel => {
+        volmodel.style.cursor = 'grab';
+    });
 }
 
-// Добавляем обработчик события начала перетаскивания
-model.addEventListener('mousedown', handleDragStart);
-model.addEventListener('touchstart', handleDragStart);
+// Добавляем обработчик события начала перетаскивания для каждой модели
+volmodels.forEach(volmodel => {
+    volmodel.addEventListener('mousedown', handleDragStart);
+    volmodel.addEventListener('touchstart', handleDragStart);
+});
