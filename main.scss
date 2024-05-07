@@ -4,51 +4,129 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 // Вращение головы
-@keyframes volhuman-head-rotating {
+@keyframes volhuman-walking-head {
     0%, 100% {
         transform: 
-            rotateX(-45deg)
             rotateY(-15deg)
-            translateX(-.3em)
             translateY(-8em);
     }
     50% {
         transform:
-            rotateX(-45deg)
             rotateY(15deg)
-            translateX(-.3em)
             translateY(-8em);
     }
 }
+// Движение рук
+@keyframes volhuman-walking-hand-left {
+    0%, 100% {
+        transform: 
+            rotateX(-10deg)
+            translateX(-4em);
+    }
+    50% {
+        transform: 
+            rotateX(10deg)
+            translateX(-4em);
+    }
+}
+@keyframes volhuman-walking-hand-right {
+    0%, 100% {
+        transform: 
+            rotateX(10deg)
+            translateX(8em);
+    }
+    50% {
+        transform: 
+            rotateX(-10deg)
+            translateX(8em);
+    }
+}
+// Движение ног
+@keyframes volhuman-walking-leg-left {
+    0%, 100% {
+        transform:
+            rotateX(-10deg)
+            translateX(4em)
+            translateY(12.2em)
+            translateZ(2em)
+            ;
+    }
+    50% {
+        transform:
+            rotateX(10deg)
+            translateX(4em)
+            translateY(12.2em)
+            translateZ(-2em)
+            ;
+    }
+}
+@keyframes volhuman-walking-leg-right {
+    0%, 100% {
+        transform: 
+            rotateX(10deg)
+            translateX(0em)
+            translateY(12.2em)
+            translateZ(-2em)
+            ;
+    }
+    50% {
+        transform: 
+            rotateX(-10deg)
+            translateX(0em)
+            translateY(12.2em)
+            translateZ(2em)
+            ;
+    }
+}
+// Миксин анимации походки для каждого меша
+@mixin volhuman-walking($meshName) {
+    @if($meshName == 'head') {
+        animation: volhuman-walking-head 2s linear infinite;
+    }
+    @else if($meshName == 'hand--left') {
+        animation: volhuman-walking-hand-left 2s linear infinite;
+    }
+    @else if($meshName == 'hand--right') {
+        animation: volhuman-walking-hand-right 2s linear infinite;
+    }
+    @else if($meshName == 'leg--left') {
+        animation: volhuman-walking-leg-left 2s linear infinite;
+    }
+    @else if($meshName == 'leg--right') {
+        animation: volhuman-walking-leg-right 2s linear infinite;
+    }
+}
+
 // Миксин размера плоскостей мешей
 @mixin rect-size($parentMesh, $rectSize) {
-    @if ($parentMesh == "head") {
-        @if ($rectSize == "equal") {
+    @if ($parentMesh == 'head') {
+        @if ($rectSize == 'equal') {
             height: 8em;
             width: 8em;
         }
     }
-    @else if ($parentMesh == "body") {
-        @if ($rectSize == "wide") {
+    @else if ($parentMesh == 'body') {
+        @if ($rectSize == 'wide') {
             height: 12em;
             width: 8em;
-        } @else if ($rectSize == "narrow") {
+        } @else if ($rectSize == 'narrow') {
             height: 12em;
             width: 4em;
-        } @else if ($rectSize == "small") {
+        } @else if ($rectSize == 'small') {
             height: 4em;
             width: 8em;
         }
     }
-    @else if ($parentMesh == "limb") {
-        @if ($rectSize == "wide") {
+    @else if ($parentMesh == 'limb') {
+        @if ($rectSize == 'wide') {
             height: 12em;
             width: 4em;
-        } @else if ($rectSize == "narrow") {
+        } @else if ($rectSize == 'narrow') {
             height: 12em;
             width: 4em;
-        } @else if ($rectSize == "small") {
+        } @else if ($rectSize == 'small') {
             height: 4em;
             width: 4em;
         }
@@ -70,12 +148,17 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    //  Делаю все 3D объекты под углом
+    transform-style: preserve-3d;
+    transform: 
+        rotateX(-45deg)
+        rotateY(-45deg);
 }
 
 .mesh {
     transform-style: preserve-3d;
     &__rect {
-        backdrop-filter: blur(.1em);
         position: absolute;
         display: flex;
         justify-content: center;
@@ -84,7 +167,7 @@ body {
         background-size: contain;
         image-rendering: pixelated;
         border: 1px solid #ffffff;
-        background-color: #05a500;
+        background-color: #05a50089;
     }
 }
 
@@ -97,10 +180,8 @@ body {
     // Голова
     &__head {
         z-index: 6;
-        transform:
-            rotateX(-45deg)
-            translateY(-8em);
-        animation: volhuman-head-rotating 2s linear infinite;
+        transform: translateY(-8em); // Положение относительно тела
+        @include volhuman-walking('head');
 
         &-rect {
             &--front {
@@ -133,9 +214,6 @@ body {
     // Тело
     &__body {
         z-index: 5;
-        transform: 
-            rotateX(-45deg);
-            // rotateY(-45deg);
 
         &-rect {
             &--front {
@@ -169,17 +247,13 @@ body {
     &__hand {
         &--left {
             z-index: 4;
-            transform: 
-                rotateX(-45deg)
-                // rotateY(-45deg)
-                translateX(-4em);// Положение относительно тела
+            transform: translateX(-4em);// Положение относительно тела
+            @include volhuman-walking('hand--left');
         }
         &--right {
             z-index: 5;
-            transform: 
-                rotateX(-45deg)
-                // rotateY(-45deg)
-                translateX(8em); // Положение относительно тела
+            transform: translateX(8em); // Положение относительно тела
+            @include volhuman-walking('hand--right');
         }
 
         &-rect {
@@ -214,21 +288,19 @@ body {
     &__leg {
         &--left {
             z-index: 2;
+            // Положение относительно тела
             transform: 
-                rotateX(-45deg)
-                // rotateY(-45deg)
-                // Положение относительно тела
                 translateX(0em)
                 translateY(12em);
-        }
+            @include volhuman-walking('leg--left');
+            }
         &--right {
             z-index: 3;
+            // Положение относительно тела
             transform: 
-                rotateX(-45deg)
-                // rotateY(-45deg)
-                // Положение относительно тела
                 translateX(4em)
                 translateY(12em);
+            @include volhuman-walking('leg--right');
         }
 
         &-rect {
