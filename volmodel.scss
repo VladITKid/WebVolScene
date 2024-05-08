@@ -7,7 +7,7 @@ $hairColor: #422445FF;
 // * Управление размерами
 // Множитель для функции умножения единиц измерения
 :root {
-    --unit-multiplier: 1.4vw;
+    --unit-multiplier: 1.8vw;
 }
 
 // um сокр. — unit multiplication — функция умножения единиц измерения
@@ -98,46 +98,72 @@ body {
 // * Анимация Lightsaber
 
 @keyframes volhuman-lightsaber-hand-right {
-    
+    0%, 100% {
+        transform: 
+            rotateX(0deg)
+            translateX(um(-4))
+    }
+    50% {
+        transform: 
+            rotateX(90deg)
+            translateY(um(-1))
+            translateX(um(-4))
+            translateZ(um(-3));
+
+    }
+}
+@keyframes volhuman-lightsaber-blade {
+    0% {
+        transform:
+            scaleY(0)
+            translateY(um(2))
+            translateX(um(.5)); // Положение относительно родителя
+    }
+    100% {
+        transform: 
+            scaleY(1)
+            translateY(um(2))
+            translateX(um(.5)); // Положение относительно родителя
+    }
 }
 
-// Миксин выбора анимации для каждого меша
-@mixin volhuman-animation($animation, $meshName) {
-    @if($animation == 'walking') {
-        &--walking {
-            animation-duration: 2s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
 
-            @if($meshName == 'head') {
-                animation-name: volhuman-walking-head;
-            }
-            @else if($meshName == 'hand--left') {
-                animation-name: volhuman-walking-hand-left;
-            }
-            @else if($meshName == 'hand--right') {
-                animation-name: volhuman-walking-hand-right;
-            }
-            @else if($meshName == 'leg--left') {
-                animation-name: volhuman-walking-leg-left;
-            }
-            @else if($meshName == 'leg--right') {
-                animation-name: volhuman-walking-leg-right;
-            }
+// Миксин выбора анимации для каждого меша
+@mixin volhuman-animation($meshName) {
+    &--walking {
+        animation-duration: 2s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+
+        @if($meshName == 'head') {
+            animation-name: volhuman-walking-head;
+        }
+        @else if($meshName == 'hand--left') {
+            animation-name: volhuman-walking-hand-left;
+        }
+        @else if($meshName == 'hand--right') {
+            animation-name: volhuman-walking-hand-right;
+        }
+        @else if($meshName == 'leg--left') {
+            animation-name: volhuman-walking-leg-left;
+        }
+        @else if($meshName == 'leg--right') {
+            animation-name: volhuman-walking-leg-right;
         }
     }
-    @else if($animation == 'lightsaber'){
-        &--lightsaber {
-            animation-duration: 2s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
 
-            @if($meshName == 'hand--right') {
-                animation-name: volhuman-lightsaber-hand-right;
-            }
-            @else if($meshName == 'lightsaber') {
-                animation-name: volhuman-lightsaber;
-            }
+    &--lightsaber {
+        animation-timing-function: linear;
+        
+        @if($meshName == 'hand--right') {
+            animation-duration: 1s;
+            animation-delay: 2.5s;
+            animation-iteration-count: infinite;
+            animation-name: volhuman-lightsaber-hand-right;
+        }
+        @if($meshName == 'lightsaber-blade') {
+            animation-duration: 2s;
+            animation-name: volhuman-lightsaber-blade;
         }
     }
 }
@@ -172,6 +198,30 @@ body {
         } @else if ($rectSize == 'small') {
             height: um(4);
             width: um(4);
+        }
+    }
+    @else if ($parentMesh == 'lightsaber-hilt') {
+        @if ($rectSize == 'wide') {
+            height: um(8);
+            width: um(2);
+        } @else if ($rectSize == 'narrow') {
+            height: um(8);
+            width: um(2);
+        } @else if ($rectSize == 'small') {
+            height: um(2);
+            width: um(2);
+        }
+    }
+    @else if ($parentMesh == 'lightsaber-blade') {
+        @if ($rectSize == 'wide') {
+            height: um(18);
+            width: um(1);
+        } @else if ($rectSize == 'narrow') {
+            height: um(18);
+            width: um(1);
+        } @else if ($rectSize == 'small') {
+            height: um(1);
+            width: um(1);
         }
     }
 }
@@ -211,7 +261,7 @@ body {
         background-repeat: no-repeat;
         background-size: contain;
         image-rendering: pixelated;
-        border: um(.1) solid $volsceneColor;
+        border: um(.01) solid #a5a5a5;
         // background-color: #05a500b5;
     }
 }
@@ -227,7 +277,7 @@ body {
     &__head {
         z-index: 6;
         transform: translateY(um(-8)); // Положение относительно тела
-        @include volhuman-animation('walking', 'head');
+        @include volhuman-animation('head');
 
         &-rect {
             &--front {
@@ -312,12 +362,12 @@ body {
         &--left {
             z-index: 5;
             transform: translateX(um(8)); // Положение относительно тела
-            @include volhuman-animation('walking', 'hand--left');
+            @include volhuman-animation('hand--left');
         }
         &--right {
             z-index: 4;
             transform: translateX(um(-4));// Положение относительно тела
-            @include volhuman-animation('walking', 'hand--right');
+            @include volhuman-animation('hand--right');
         }
 
         &-rect {
@@ -361,6 +411,81 @@ body {
         }
     }
 
+    // Световой меч
+    &__lightsaber {
+        z-index: inherit;
+        transform: 
+            rotateX(90deg)
+            translateX(um(1))
+            translateZ(um(-10))
+            translateY(um(2)); // Положение относительно родителя
+
+        // Рукоять
+        &-hilt {
+            transform: 
+            translateY(um(-6)); // Положение относительно родителя
+            &-rect {
+                background-color: #525252;
+    
+                &--front {
+                    @include rect-size("lightsaber-hilt", "wide");
+                    transform: translateZ(um(1));
+                }
+                &--back {
+                    @include rect-size("lightsaber-hilt", "wide");
+                    transform: translateZ(um(-1));
+                }
+                &--top {
+                    @include rect-size("lightsaber-hilt", "small");
+                    transform: translateY(um(7)) rotateX(90deg);
+                    box-shadow: none; 
+                }
+                &--right {
+                    @include rect-size("lightsaber-hilt", "narrow");
+                    transform: translateX(um(1)) rotateY(-90deg);
+                }
+                &--left {
+                    @include rect-size("lightsaber-hilt", "narrow");
+                    transform: translateX(um(-1)) rotateY(90deg);
+                }
+            }
+        }
+
+        // Клинок
+        &-blade {
+            @include volhuman-animation('lightsaber-blade');
+            transform: 
+                translateY(um(2))
+                translateX(um(.5)); // Положение относительно родителя
+            &-rect {
+                background-color: #ffdfed;
+                box-shadow: 0 0 um(5) 0 #00d9ff;
+    
+                &--front {
+                    @include rect-size("lightsaber-blade", "wide");
+                    transform: translateZ(um(.5));
+                }
+                &--back {
+                    @include rect-size("lightsaber-blade", "wide");
+                    transform: translateZ(um(-.5));
+                }
+                &--top {
+                    @include rect-size("lightsaber-blade", "small");
+                    transform: translateY(um(17.5)) rotateX(90deg);
+                    box-shadow: none; 
+                }
+                &--right {
+                    @include rect-size("lightsaber-blade", "narrow");
+                    transform: translateX(um(.5)) rotateY(-90deg);
+                }
+                &--left {
+                    @include rect-size("lightsaber-blade", "narrow");
+                    transform: translateX(um(-.5)) rotateY(90deg);
+                }
+            }
+        }
+    }
+
     // Ноги
     &__leg {
         &--left {
@@ -369,7 +494,7 @@ body {
             transform: 
                 translateX(um(4))
                 translateY(um(12));
-            @include volhuman-animation('walking', 'leg--left');
+            @include volhuman-animation('leg--left');
         }
         &--right {
             z-index: 3;
@@ -377,7 +502,7 @@ body {
             transform: 
                 translateX(0)
                 translateY(um(12));
-            @include volhuman-animation('walking', 'leg--right');
+            @include volhuman-animation('leg--right');
         }
 
         &-rect {
