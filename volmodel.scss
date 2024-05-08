@@ -1,4 +1,4 @@
-$volsceneColor: #5a5a5a;
+$volsceneColor: #666666;
 $tshortColor: #4B5BABFF;
 $pantsColor: #473B78FF;
 $skinColor: #FFB570FF;
@@ -11,6 +11,7 @@ body {
     justify-content: center;
 }
 
+// * Анимация Walking
 // Вращение головы
 @keyframes volhuman-walking-head {
     0%, 100% {
@@ -28,25 +29,25 @@ body {
 @keyframes volhuman-walking-hand-left {
     0%, 100% {
         transform: 
-            rotateX(-10deg)
-            translateX(-4*$vwMultiplier);
+            rotateX(10deg)
+            translateX(8*$vwMultiplier);
     }
     50% {
         transform: 
-            rotateX(10deg)
-            translateX(-4*$vwMultiplier);
+            rotateX(-10deg)
+            translateX(8*$vwMultiplier);
     }
 }
 @keyframes volhuman-walking-hand-right {
     0%, 100% {
         transform: 
-            rotateX(10deg)
-            translateX(8*$vwMultiplier);
+            rotateX(-10deg)
+            translateX(-4*$vwMultiplier);
     }
     50% {
         transform: 
-            rotateX(-10deg)
-            translateX(8*$vwMultiplier);
+            rotateX(10deg)
+            translateX(-4*$vwMultiplier);
     }
 }
 // Движение ног
@@ -66,8 +67,8 @@ body {
             translateY(12.2*$vwMultiplier)
             translateZ(-2*$vwMultiplier)
             ;
+        }
     }
-}
 @keyframes volhuman-walking-leg-right {
     0%, 100% {
         transform: 
@@ -86,6 +87,13 @@ body {
             ;
     }
 }
+
+// * Анимация Lightsaber
+
+@keyframes volhuman-lightsaber-hand-right {
+    
+}
+
 // Миксин выбора анимации для каждого меша
 @mixin volhuman-animation($animation, $meshName) {
     @if($animation == 'walking') {
@@ -237,7 +245,6 @@ body {
     // Тело
     &__body {
         z-index: 5;
-        
         &-rect {
             @mixin textureMixin {
                 background-image: 
@@ -282,13 +289,13 @@ body {
     // Руки
     &__hand {
         &--left {
-            z-index: 4;
-            transform: translateX(-4*$vwMultiplier);// Положение относительно тела
+            z-index: 5;
+            transform: translateX(8*$vwMultiplier); // Положение относительно тела
             @include volhuman-animation('walking', 'hand--left');
         }
         &--right {
-            z-index: 5;
-            transform: translateX(8*$vwMultiplier); // Положение относительно тела
+            z-index: 4;
+            transform: translateX(-4*$vwMultiplier);// Положение относительно тела
             @include volhuman-animation('walking', 'hand--right');
         }
 
@@ -339,15 +346,15 @@ body {
             z-index: 2;
             // Положение относительно тела
             transform: 
-                translateX(0*$vwMultiplier)
+                translateX(4*$vwMultiplier)
                 translateY(12*$vwMultiplier);
             @include volhuman-animation('walking', 'leg--left');
-            }
+        }
         &--right {
             z-index: 3;
             // Положение относительно тела
             transform: 
-                translateX(4*$vwMultiplier)
+                translateX(0*$vwMultiplier)
                 translateY(12*$vwMultiplier);
             @include volhuman-animation('walking', 'leg--right');
         }
