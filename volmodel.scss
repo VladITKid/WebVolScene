@@ -3,7 +3,17 @@ $tshortColor: #4B5BABFF;
 $pantsColor: #473B78FF;
 $skinColor: #FFB570FF;
 $hairColor: #422445FF;
-$vwMultiplier: 1.2vw;
+
+// * Управление размерами
+// Множитель для функции умножения единиц измерения
+:root {
+    --unit-multiplier: 1.4vw;
+}
+
+// um сокр. — unit multiplication — функция умножения единиц измерения
+@function um($num) {
+    @return calc(#{$num} * var(--unit-multiplier));
+}
 
 body {
     background-color: $volsceneColor;
@@ -17,12 +27,12 @@ body {
     0%, 100% {
         transform: 
             rotateY(-15deg)
-            translateY(-8*$vwMultiplier);
+            translateY(um(-8));
     }
     50% {
         transform:
             rotateY(15deg)
-            translateY(-8*$vwMultiplier);
+            translateY(um(-8));
     }
 }
 // Движение рук
@@ -30,24 +40,24 @@ body {
     0%, 100% {
         transform: 
             rotateX(10deg)
-            translateX(8*$vwMultiplier);
+            translateX(um(8));
     }
     50% {
         transform: 
             rotateX(-10deg)
-            translateX(8*$vwMultiplier);
+            translateX(um(8));
     }
 }
 @keyframes volhuman-walking-hand-right {
     0%, 100% {
         transform: 
             rotateX(-10deg)
-            translateX(-4*$vwMultiplier);
+            translateX(um(-4));
     }
     50% {
         transform: 
             rotateX(10deg)
-            translateX(-4*$vwMultiplier);
+            translateX(um(-4));
     }
 }
 // Движение ног
@@ -55,36 +65,33 @@ body {
     0%, 100% {
         transform:
             rotateX(-10deg)
-            translateX(4*$vwMultiplier)
-            translateY(12.2*$vwMultiplier)
-            translateZ(2*$vwMultiplier)
+            translateX(um(4))
+            translateY(um(12.2))
+            translateZ(um(2))
             ;
     }
     50% {
         transform:
             rotateX(10deg)
-            translateX(4*$vwMultiplier)
-            translateY(12.2*$vwMultiplier)
-            translateZ(-2*$vwMultiplier)
-            ;
+            translateX(um(4))
+            translateY(um(12.2))
+            translateZ(um(-2));
         }
     }
 @keyframes volhuman-walking-leg-right {
     0%, 100% {
         transform: 
             rotateX(10deg)
-            translateX(0*$vwMultiplier)
-            translateY(12.2*$vwMultiplier)
-            translateZ(-2*$vwMultiplier)
-            ;
+            translateX(0)
+            translateY(um(12.2))
+            translateZ(um(-2));
     }
     50% {
         transform: 
             rotateX(-10deg)
-            translateX(0*$vwMultiplier)
-            translateY(12.2*$vwMultiplier)
-            translateZ(2*$vwMultiplier)
-            ;
+            translateX(0)
+            translateY(um(12.2))
+            translateZ(um(2));
     }
 }
 
@@ -119,38 +126,52 @@ body {
             }
         }
     }
+    @else if($animation == 'lightsaber'){
+        &--lightsaber {
+            animation-duration: 2s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+
+            @if($meshName == 'hand--right') {
+                animation-name: volhuman-lightsaber-hand-right;
+            }
+            @else if($meshName == 'lightsaber') {
+                animation-name: volhuman-lightsaber;
+            }
+        }
+    }
 }
 
 // Миксин размера плоскостей мешей
 @mixin rect-size($parentMesh, $rectSize) {
     @if ($parentMesh == 'head') {
         @if ($rectSize == 'equal') {
-            height: 8*$vwMultiplier;
-            width: 8*$vwMultiplier;
+            height: um(8);
+            width: um(8);
         }
     }
     @else if ($parentMesh == 'body') {
         @if ($rectSize == 'wide') {
-            height: 12*$vwMultiplier;
-            width: 8*$vwMultiplier;
+            height: um(12);
+            width: um(8);
         } @else if ($rectSize == 'narrow') {
-            height: 12*$vwMultiplier;
-            width: 4*$vwMultiplier;
+            height: um(12);
+            width: um(4);
         } @else if ($rectSize == 'small') {
-            height: 4*$vwMultiplier;
-            width: 8*$vwMultiplier;
+            height: um(4);
+            width: um(8);
         }
     }
     @else if ($parentMesh == 'limb') {
         @if ($rectSize == 'wide') {
-            height: 12*$vwMultiplier;
-            width: 4*$vwMultiplier;
+            height: um(12);
+            width: um(4);
         } @else if ($rectSize == 'narrow') {
-            height: 12*$vwMultiplier;
-            width: 4*$vwMultiplier;
+            height: um(12);
+            width: um(4);
         } @else if ($rectSize == 'small') {
-            height: 4*$vwMultiplier;
-            width: 4*$vwMultiplier;
+            height: um(4);
+            width: um(4);
         }
     }
 }
@@ -159,8 +180,8 @@ body {
 .volscene {
     grid-column: 2;
     position: relative;
-    height: 40*$vwMultiplier;
-    width: 40*$vwMultiplier;
+    height: um(40);
+    width: um(40);
     font-size: 12px;
     background-image: radial-gradient(center, #ffffff3b 0% 20%, transparent 70% 100%);
 }
@@ -190,53 +211,53 @@ body {
         background-repeat: no-repeat;
         background-size: contain;
         image-rendering: pixelated;
-        border: .1*$vwMultiplier solid $volsceneColor;
-        background-color: #05a500b5;
+        border: um(.1) solid $volsceneColor;
+        // background-color: #05a500b5;
     }
 }
 
 // 3D Человек
 .volhuman {
-    bottom: 5*$vwMultiplier;
-    right: 16*$vwMultiplier;
-    width: 8*$vwMultiplier;
+    bottom: um(5);
+    right: um(16);
+    width: um(8);
     height: inherit;
 
     // Голова
     &__head {
         z-index: 6;
-        transform: translateY(-8*$vwMultiplier); // Положение относительно тела
+        transform: translateY(um(-8)); // Положение относительно тела
         @include volhuman-animation('walking', 'head');
 
         &-rect {
             &--front {
                 @include rect-size("head", "equal");
-                transform: translateZ(4*$vwMultiplier);
+                transform: translateZ(um(4));
                 background-image: url('face.gif');
             }
             &--back {
                 @include rect-size("head", "equal");
-                transform: translateZ(-4*$vwMultiplier);
+                transform: translateZ(um(-4));
                 background-image: url('headBack.png');
             }
             &--top {
                 @include rect-size("head", "equal");
-                transform: translateY(-4*$vwMultiplier) rotateX(-90deg);
+                transform: translateY(um(-4)) rotateX(-90deg);
                 background-color: $hairColor;
             }
             &--bottom {
                 @include rect-size("head", "equal");
-                transform: translateY(4*$vwMultiplier) rotateX(90deg);
+                transform: translateY(um(4)) rotateX(90deg);
                 background-color: $skinColor;
             }
             &--right {
                 @include rect-size("head", "equal");
-                transform: translateX(4*$vwMultiplier) rotateY(90deg);
+                transform: translateX(um(4)) rotateY(90deg);
                 background-image: url('headSide.png');
             }
             &--left {
                 @include rect-size("head", "equal");
-                transform: translateX(-4*$vwMultiplier) rotateY(90deg);
+                transform: translateX(um(-4)) rotateY(90deg);
                 background-image: url('headSide.png');
             }
         }
@@ -249,38 +270,38 @@ body {
             @mixin textureMixin {
                 background-image: 
                 linear-gradient(180deg,
-                    $tshortColor 0 10*$vwMultiplier,
-                    $pantsColor 10*$vwMultiplier 12*$vwMultiplier
+                    $tshortColor 0 um(10),
+                    $pantsColor um(10) um(12)
                 );
             }
 
             &--front {
                 @include rect-size("body", "wide");
-                transform: translateZ(2*$vwMultiplier);
+                transform: translateZ(um(2));
                 @include textureMixin;
             }
             &--back {
                 @include rect-size("body", "wide");
-                transform: translateZ(-2*$vwMultiplier);
+                transform: translateZ(um(-2));
                 @include textureMixin;
             }
             &--top {
                 @include rect-size("body", "small");
-                transform: translateY(-2*$vwMultiplier) rotateX(-90deg);
+                transform: translateY(um(-2)) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("body", "small");
-                transform: translateY(10*$vwMultiplier) rotateX(90deg);
+                transform: translateY(um(10)) rotateX(90deg);
                 background-color: $pantsColor;
             }
             &--right {
                 @include rect-size("body", "narrow");
-                transform: translateX(6*$vwMultiplier) rotateY(-90deg);
+                transform: translateX(um(6)) rotateY(-90deg);
                 @include textureMixin;
             }
             &--left {
                 @include rect-size("body", "narrow");
-                transform: translateX(-2*$vwMultiplier) rotateY(90deg);
+                transform: translateX(um(-2)) rotateY(90deg);
                 @include textureMixin;
             }
         }
@@ -290,12 +311,12 @@ body {
     &__hand {
         &--left {
             z-index: 5;
-            transform: translateX(8*$vwMultiplier); // Положение относительно тела
+            transform: translateX(um(8)); // Положение относительно тела
             @include volhuman-animation('walking', 'hand--left');
         }
         &--right {
             z-index: 4;
-            transform: translateX(-4*$vwMultiplier);// Положение относительно тела
+            transform: translateX(um(-4));// Положение относительно тела
             @include volhuman-animation('walking', 'hand--right');
         }
 
@@ -303,38 +324,38 @@ body {
             @mixin textureMixin {
                 background-image: 
                 linear-gradient(180deg,
-                    $tshortColor 0 4*$vwMultiplier,
-                    $skinColor 4*$vwMultiplier 12*$vwMultiplier
+                    $tshortColor 0 um(4),
+                    $skinColor um(4) um(12)
                 );
             }
             &--front {
                 @include rect-size("limb", "wide");
-                transform: translateZ(2*$vwMultiplier);
+                transform: translateZ(um(2));
                 @include textureMixin;
             }
             &--back {
                 @include rect-size("limb", "wide");
-                transform: translateZ(-2*$vwMultiplier);
+                transform: translateZ(um(-2));
                 @include textureMixin;
             }
             &--top {
                 @include rect-size("limb", "small");
-                transform: translateY(-2*$vwMultiplier) rotateX(-90deg);
+                transform: translateY(um(-2)) rotateX(-90deg);
                 background-color: $tshortColor;
             }
             &--bottom {
                 @include rect-size("limb", "small");
-                transform: translateY(10*$vwMultiplier) rotateX(90deg);
+                transform: translateY(um(10)) rotateX(90deg);
                 background-color: $skinColor;
             }
             &--right {
                 @include rect-size("limb", "narrow");
-                transform: translateX(2*$vwMultiplier) rotateY(-90deg);
+                transform: translateX(um(2)) rotateY(-90deg);
                 @include textureMixin;
             }
             &--left {
                 @include rect-size("limb", "narrow");
-                transform: translateX(-2*$vwMultiplier) rotateY(90deg);
+                transform: translateX(um(-2)) rotateY(90deg);
                 @include textureMixin;
             }
         }
@@ -346,16 +367,16 @@ body {
             z-index: 2;
             // Положение относительно тела
             transform: 
-                translateX(4*$vwMultiplier)
-                translateY(12*$vwMultiplier);
+                translateX(um(4))
+                translateY(um(12));
             @include volhuman-animation('walking', 'leg--left');
         }
         &--right {
             z-index: 3;
             // Положение относительно тела
             transform: 
-                translateX(0*$vwMultiplier)
-                translateY(12*$vwMultiplier);
+                translateX(0)
+                translateY(um(12));
             @include volhuman-animation('walking', 'leg--right');
         }
 
@@ -363,27 +384,27 @@ body {
             background-color: $pantsColor;
             &--front {
                 @include rect-size("limb", "wide");
-                transform: translateZ(2*$vwMultiplier);
+                transform: translateZ(um(2));
             }
             &--back {
                 @include rect-size("limb", "wide");
-                transform: translateZ(-2*$vwMultiplier);
+                transform: translateZ(um(-2));
             }
             &--top {
                 @include rect-size("limb", "small");
-                transform: translateY(-2*$vwMultiplier) rotateX(-90deg);
+                transform: translateY(um(-2)) rotateX(-90deg);
             }
             &--bottom {
                 @include rect-size("limb", "small");
-                transform: translateY(10*$vwMultiplier) rotateX(90deg);
+                transform: translateY(um(10)) rotateX(90deg);
             }
             &--right {
                 @include rect-size("limb", "narrow");
-                transform: translateX(2*$vwMultiplier) rotateY(-90deg);
+                transform: translateX(um(2)) rotateY(-90deg);
             }
             &--left {
                 @include rect-size("limb", "narrow");
-                transform: translateX(-2*$vwMultiplier) rotateY(90deg);
+                transform: translateX(um(-2)) rotateY(90deg);
             }
         }
     }
