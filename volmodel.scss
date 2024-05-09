@@ -21,152 +21,6 @@ body {
     justify-content: center;
 }
 
-// * Анимация Walking
-// Вращение головы
-@keyframes volhuman-walking-head {
-    0%, 100% {
-        transform: 
-            rotateY(-15deg)
-            translateY(um(-8));
-    }
-    50% {
-        transform:
-            rotateY(15deg)
-            translateY(um(-8));
-    }
-}
-// Движение рук
-@keyframes volhuman-walking-hand-left {
-    0%, 100% {
-        transform: 
-            rotateX(10deg)
-            translateX(um(8));
-    }
-    50% {
-        transform: 
-            rotateX(-10deg)
-            translateX(um(8));
-    }
-}
-@keyframes volhuman-walking-hand-right {
-    0%, 100% {
-        transform: 
-            rotateX(-10deg)
-            translateX(um(-4));
-    }
-    50% {
-        transform: 
-            rotateX(10deg)
-            translateX(um(-4));
-    }
-}
-// Движение ног
-@keyframes volhuman-walking-leg-left {
-    0%, 100% {
-        transform:
-            rotateX(-10deg)
-            translateX(um(4))
-            translateY(um(12.2))
-            translateZ(um(2))
-            ;
-    }
-    50% {
-        transform:
-            rotateX(10deg)
-            translateX(um(4))
-            translateY(um(12.2))
-            translateZ(um(-2));
-        }
-    }
-@keyframes volhuman-walking-leg-right {
-    0%, 100% {
-        transform: 
-            rotateX(10deg)
-            translateX(0)
-            translateY(um(12.2))
-            translateZ(um(-2));
-    }
-    50% {
-        transform: 
-            rotateX(-10deg)
-            translateX(0)
-            translateY(um(12.2))
-            translateZ(um(2));
-    }
-}
-
-// * Анимация Lightsaber
-
-@keyframes volhuman-lightsaber-hand-right {
-    0%, 100% {
-        transform: 
-            rotateX(0deg)
-            translateX(um(-4))
-    }
-    50% {
-        transform: 
-            rotateX(90deg)
-            translateY(um(-1))
-            translateX(um(-4))
-            translateZ(um(-3));
-
-    }
-}
-@keyframes volhuman-lightsaber-blade {
-    0% {
-        transform:
-            scaleY(0)
-            translateY(um(2))
-            translateX(um(.5)); // Положение относительно родителя
-    }
-    100% {
-        transform: 
-            scaleY(1)
-            translateY(um(2))
-            translateX(um(.5)); // Положение относительно родителя
-    }
-}
-
-
-// Миксин выбора анимации для каждого меша
-@mixin volhuman-animation($meshName) {
-    &--walking {
-        animation-duration: 2s;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-
-        @if($meshName == 'head') {
-            animation-name: volhuman-walking-head;
-        }
-        @else if($meshName == 'hand--left') {
-            animation-name: volhuman-walking-hand-left;
-        }
-        @else if($meshName == 'hand--right') {
-            animation-name: volhuman-walking-hand-right;
-        }
-        @else if($meshName == 'leg--left') {
-            animation-name: volhuman-walking-leg-left;
-        }
-        @else if($meshName == 'leg--right') {
-            animation-name: volhuman-walking-leg-right;
-        }
-    }
-
-    &--lightsaber {
-        animation-timing-function: linear;
-        
-        @if($meshName == 'hand--right') {
-            animation-duration: 1s;
-            animation-delay: 2.5s;
-            animation-iteration-count: infinite;
-            animation-name: volhuman-lightsaber-hand-right;
-        }
-        @if($meshName == 'lightsaber-blade') {
-            animation-duration: 2s;
-            animation-name: volhuman-lightsaber-blade;
-        }
-    }
-}
 
 // Миксин размера плоскостей мешей
 @mixin rect-size($parentMesh, $rectSize) {
@@ -222,6 +76,110 @@ body {
         } @else if ($rectSize == 'small') {
             height: um(1);
             width: um(1);
+        }
+    }
+}
+
+// * Анимация Walking
+// Вращение головы
+@keyframes volhuman-walking-head {
+    0%, 100% {
+        transform: 
+            rotateY(-15deg)
+            translateY(um(-8));
+    }
+    50% {
+        transform:
+            rotateY(15deg)
+            translateY(um(-8));
+    }
+}
+// Движение рук
+@keyframes volhuman-walking-hand-left {
+    0%, 100% {
+        transform:
+            rotateX(10deg)
+            rotateZ(-5deg)
+            translateX(um(8));
+    }
+    50% {
+        transform: 
+            rotateX(-10deg)
+            rotateZ(-5deg)
+            translateX(um(8));
+    }
+}
+@keyframes volhuman-walking-hand-right {
+    0%, 100% {
+        transform: 
+            rotateX(-10deg)
+            rotateY(-15deg)
+            rotateZ(10deg)
+            translateX(um(-4));
+    }
+    50% {
+        transform: 
+            rotateX(0deg)
+            rotateZ(5deg)
+            translateX(um(-4));
+    }
+}
+// Движение ног
+@keyframes volhuman-walking-leg-left {
+    0%, 100% {
+        transform:
+            rotateX(-10deg)
+            translateX(um(4))
+            translateY(um(12.2))
+            translateZ(um(2));
+    }
+    50% {
+        transform:
+            rotateX(10deg)
+            translateX(um(4))
+            translateY(um(12.2))
+            translateZ(um(-2));
+        }
+}
+@keyframes volhuman-walking-leg-right {
+    0%, 100% {
+        transform: 
+            rotateX(10deg)
+            translateX(0)
+            translateY(um(12.2))
+            translateZ(um(-2));
+    }
+    50% {
+        transform: 
+            rotateX(-10deg)
+            translateX(0)
+            translateY(um(12.2))
+            translateZ(um(2));
+    }
+}
+
+
+// Миксин выбора анимации для каждого меша
+@mixin volhuman-animation($meshName) {
+    &--walking {
+        animation-duration: 2s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+
+        @if($meshName == 'head') {
+            animation-name: volhuman-walking-head;
+        }
+        @else if($meshName == 'hand--left') {
+            animation-name: volhuman-walking-hand-left;
+        }
+        @else if($meshName == 'hand--right') {
+            animation-name: volhuman-walking-hand-right;
+        }
+        @else if($meshName == 'leg--left') {
+            animation-name: volhuman-walking-leg-left;
+        }
+        @else if($meshName == 'leg--right') {
+            animation-name: volhuman-walking-leg-right;
         }
     }
 }
@@ -415,15 +373,14 @@ body {
     &__lightsaber {
         z-index: inherit;
         transform: 
-            rotateX(90deg)
-            translateX(um(1))
-            translateZ(um(-10))
-            translateY(um(2)); // Положение относительно родителя
+            rotateX(80deg)
+            rotateZ(45deg)
+            translateX(um(3))
+            translateZ(um(-12))
+            translateY(um(-1)); // Положение относительно родителя
 
         // Рукоять
         &-hilt {
-            transform: 
-            translateY(um(-6)); // Положение относительно родителя
             &-rect {
                 background-color: #525252;
     
@@ -440,6 +397,11 @@ body {
                     transform: translateY(um(7)) rotateX(90deg);
                     box-shadow: none; 
                 }
+                &--bottom {
+                    @include rect-size("lightsaber-hilt", "small");
+                    transform: translateY(um(-1)) rotateX(90deg);
+                    box-shadow: none; 
+                }
                 &--right {
                     @include rect-size("lightsaber-hilt", "narrow");
                     transform: translateX(um(1)) rotateY(-90deg);
@@ -453,13 +415,13 @@ body {
 
         // Клинок
         &-blade {
-            @include volhuman-animation('lightsaber-blade');
-            transform: 
-                translateY(um(2))
+            transform:
+                scale(1)
+                translateY(um(8))
                 translateX(um(.5)); // Положение относительно родителя
+
             &-rect {
-                background-color: #ffdfed;
-                box-shadow: 0 0 um(5) 0 #00d9ff;
+                box-shadow: 0 0 um(5) 0 #ff1500, inset 0 0 um(5) um(5) #ffc400;
     
                 &--front {
                     @include rect-size("lightsaber-blade", "wide");
@@ -472,7 +434,6 @@ body {
                 &--top {
                     @include rect-size("lightsaber-blade", "small");
                     transform: translateY(um(17.5)) rotateX(90deg);
-                    box-shadow: none; 
                 }
                 &--right {
                     @include rect-size("lightsaber-blade", "narrow");

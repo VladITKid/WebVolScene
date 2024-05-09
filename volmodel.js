@@ -72,7 +72,6 @@ function addAnimationModifer(modiferName) {
     addClassWithModifer(handRight, modiferName);
     addClassWithModifer(legLeft, modiferName);
     addClassWithModifer(legRight, modiferName);
-    addClassWithModifer(lightsaberBlade, modiferName);
 }
 
 // Меши 3D человека
@@ -82,7 +81,7 @@ const handLeft = document.querySelector('.volhuman__hand--left');
 const handRight = document.querySelector('.volhuman__hand--right');
 const legLeft = document.querySelector('.volhuman__leg--left');
 const legRight = document.querySelector('.volhuman__leg--right');
-const lightsaberBlade = document.querySelector('.volhuman__lightsaber-blade');
 
 // Применяю функцию анимации
-addAnimationModifer('lightsaber');
+addAnimationModifer('walking');
+// addAnimationModifer('fight');
